@@ -3,6 +3,7 @@ package com.example.navigationarproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArSceneView arSceneView;
     private LocationScene locationScene;
+
 
     // Renderables for this example
     private ModelRenderable andyRenderable;
@@ -114,20 +116,27 @@ public class MainActivity extends AppCompatActivity {
 
                                 // An example "onRender" event, called every frame
                                 // Updates the layout with the markers distance
-                                layoutLocationMarker.setRenderEvent(new LocationNodeRender() {
-                                    @Override
-                                    public void render(LocationNode node) {
-                                        View eView = exampleLayoutRenderable.getView();
-                                        TextView distanceTextView = eView.findViewById(R.id.textView2);
-                                        distanceTextView.setText(node.getDistance() + "M");
-                                    }
+                                layoutLocationMarker.setRenderEvent(node -> {
+                                    View eView = exampleLayoutRenderable.getView();
+                                    TextView distanceTextView = eView.findViewById(R.id.textView2);
+                                    distanceTextView.setText(node.getDistance() + "M");
                                 });
                                 // Adding the marker
                                 locationScene.mLocationMarkers.add(layoutLocationMarker);
 
-                                tx1.setText(locationScene.deviceLocation.currentBestLocation.getLatitude() + " " +
-                                        locationScene.deviceLocation.currentBestLocation.getLongitude() );
-                                tx2.setText(layoutLocationMarker.latitude +" " +layoutLocationMarker.longitude );
+                                tx2.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
+
+                                try {
+
+
+                                    tx1.setText(locationScene.deviceLocation.currentBestLocation.getLatitude() + " " +
+                                            locationScene.deviceLocation.currentBestLocation.getLongitude());
+                                }
+                                catch (NullPointerException ex)
+                                {
+                                    tx1.setText("No Current location");
+                                   // tx2.setText("No Current location");
+                                }
                                 // Adding a simple location marker of a 3D model
                               /* locationScene.mLocationMarkers.add(
                                         new LocationMarker(
@@ -156,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+
                         });
     }
 
@@ -269,6 +279,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(
                     c, "Location marker touched.", Toast.LENGTH_LONG)
                     .show();
+
+            Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+            startActivity(intent);
             return false;
         });
 

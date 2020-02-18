@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Navigation AR project</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="Id">Id</string>
+    <string name="Secret_Code">Secret Code</string>
+
 </resources>
