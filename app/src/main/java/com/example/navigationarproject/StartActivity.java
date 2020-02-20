@@ -15,6 +15,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class StartActivity extends AppCompatActivity {
 
+    String SecretCode;
+    String ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,8 @@ public class StartActivity extends AppCompatActivity {
 
         EditText editTextID = findViewById(R.id.editIdText);
         EditText editTextCode = findViewById(R.id.editCodeText);
+
+
 
         Button SingInButton = findViewById(R.id.button);
         SingInButton.setClickable(false);
@@ -45,13 +50,12 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
-
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -59,44 +63,49 @@ public class StartActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 if (editTextID.getText().toString().equals(""))
                 {
+                    ID = "";
                   //  SingInButton.setText("XD");
                     SingInButton.setClickable(false);
                 }
                 else
                 {
+                    ID = editTextID.getText().toString();
                    // SingInButton.setText("XD2");
                     SingInButton.setClickable(true);
                 }
             }
         });
+
         editTextCode.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
-
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-                if (editTextID.getText().toString().equals(""))
+                if (editTextCode.getText().toString().equals(""))
                 {
+                    SecretCode = "";
                     //  SingInButton.setText("XD");
                     SingInButton.setClickable(false);
                 }
                 else
                 {
+                    SecretCode = editTextCode.getText().toString();
                     // SingInButton.setText("XD2");
                     SingInButton.setClickable(true);
                 }
             }
+
         });
     }
 }

@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
 
         <meta-data
             android:name="com.google.ar.core"
@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QuestActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".QuestActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

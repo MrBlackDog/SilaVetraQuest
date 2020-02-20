@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tx1 = findViewById(R.id.textView5);
         TextView tx2 = findViewById(R.id.textView6);
+
         // Build a renderable from a 2D View.
         CompletableFuture<ViewRenderable> exampleLayout =
                 ViewRenderable.builder()
@@ -126,17 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 tx2.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
 
-                                try {
 
-
-                                    tx1.setText(locationScene.deviceLocation.currentBestLocation.getLatitude() + " " +
-                                            locationScene.deviceLocation.currentBestLocation.getLongitude());
-                                }
-                                catch (NullPointerException ex)
-                                {
-                                    tx1.setText("No Current location");
-                                   // tx2.setText("No Current location");
-                                }
                                 // Adding a simple location marker of a 3D model
                               /* locationScene.mLocationMarkers.add(
                                         new LocationMarker(
@@ -145,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
 
+                            //Frame process
                             Frame frame = arSceneView.getArFrame();
                             if (frame == null) {
                                 return;
@@ -155,6 +147,17 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             if (locationScene != null) {
+                                try {
+
+
+                                    tx1.setText(locationScene.deviceLocation.currentBestLocation.getLatitude() + " " +
+                                            locationScene.deviceLocation.currentBestLocation.getLongitude());
+                                }
+                                catch (NullPointerException ex)
+                                {
+                                    tx1.setText("No Current location");
+                                    // tx2.setText("No Current location");
+                                }
                                 locationScene.processFrame(frame);
                             }
 
