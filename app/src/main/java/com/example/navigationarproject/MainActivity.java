@@ -94,7 +94,80 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an update listener on the Scene that will hide the loading message once a Plane is
         // detected.
-        arSceneView
+        arSceneView.getScene().addOnUpdateListener(
+                frameTime -> {
+                    if (!hasFinishedLoading) {
+                        return;
+                    }
+
+                    if (locationScene == null) {
+                        // If our locationScene object hasn't been setup yet, this is a good time to do it
+                        // We know that here, the AR components have been initiated.
+                        locationScene = new LocationScene(this, arSceneView);
+
+                        // Now lets create our location markers.
+                        // First, a layout
+                        LocationMarker layoutLocationMarker = new LocationMarker(
+                                37.703365, 55.756100,
+                                getExampleView()
+                        );
+
+                        // An example "onRender" event, called every frame
+                        // Updates the layout with the markers distance
+                        layoutLocationMarker.setRenderEvent(node -> {
+                            View eView = exampleLayoutRenderable.getView();
+                            TextView distanceTextView = eView.findViewById(R.id.textView2);
+                            distanceTextView.setText(node.getDistance() + "M");
+                        });
+                        // Adding the marker
+                        locationScene.mLocationMarkers.add(layoutLocationMarker);
+
+                        tx2.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
+
+
+                        // Adding a simple location marker of a 3D model
+                              /* locationScene.mLocationMarkers.add(
+                                        new LocationMarker(
+                                                55.756100, 37.703365,
+                                                getAndy()));
+                            }
+
+                            //Frame process
+                            Frame frame = arSceneView.getArFrame();
+                            if (frame == null) {
+                                return;
+                            }
+
+                            if (frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
+                                return;
+                            }
+
+                            if (locationScene != null) {
+                                try {
+
+
+                                    tx1.setText(locationScene.deviceLocation.currentBestLocation.getLatitude() + " " +
+                                            locationScene.deviceLocation.currentBestLocation.getLongitude());
+                                }
+                                catch (NullPointerException ex)
+                                {
+                                    tx1.setText("No Current location");
+                                    // tx2.setText("No Current location");
+                                }
+                                locationScene.processFrame(frame);
+                            }
+
+                            if (loadingMessageSnackbar != null) {
+                                for (Plane plane : frame.getUpdatedTrackables(Plane.class)) {
+                                    if (plane.getTrackingState() == TrackingState.TRACKING) {
+                                      //  hideLoadingMessage();
+                                    }
+                                }
+                            }
+
+                        });
+        );
+       /* arSceneView
                 .getScene()
                 .setOnUpdateListener(
                // .addOnUpdateListener(this::OnUpdateFrame);
@@ -133,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
                                         new LocationMarker(
                                                 55.756100, 37.703365,
                                                 getAndy()));*/
-
                             }
 
                             //Frame process
