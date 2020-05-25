@@ -29,7 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".QuestActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"/>
+
+
     </application>
 
 </manifest>

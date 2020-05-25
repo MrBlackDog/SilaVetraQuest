@@ -20,13 +20,13 @@
     android:layout_height="match_parent"
     tools:context="uk.co.appoly.sceneform_example.LocationActivity">
 
-  <com.google.ar.sceneform.ArSceneView
-      android:id="@+id/ar_scene_view"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:layout_gravity="top" />
+    <com.google.ar.sceneform.ArSceneView
+        android:id="@+id/ar_scene_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top" />
 
-  <TextView
+    <TextView
       android:id="@+id/textView3"
       android:layout_width="wrap_content"
       android:layout_height="37dp"
@@ -38,18 +38,18 @@
       android:layout_marginEnd="118dp"
       android:text="TextView" />
 
-  <TextView
-      android:id="@+id/textView4"
-      android:layout_width="165dp"
-      android:layout_height="29dp"
-      android:layout_below="@+id/textView3"
-      android:layout_alignParentStart="true"
-      android:layout_alignParentEnd="true"
-      android:layout_alignParentBottom="true"
-      android:layout_marginStart="123dp"
-      android:layout_marginTop="35dp"
-      android:layout_marginEnd="123dp"
-      android:layout_marginBottom="597dp"
-      android:text="TextView" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_above="@+id/textView7"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="35dp"
+        android:text="TextView" />
 
 </RelativeLayout>
