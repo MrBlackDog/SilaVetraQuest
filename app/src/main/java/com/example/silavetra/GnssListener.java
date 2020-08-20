@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.navigationarproject;
+package com.example.silavetra;
 
 import android.location.GnssMeasurementsEvent;
 import android.location.GnssNavigationMessage;

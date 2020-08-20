@@ -1,6 +1,4 @@
-package com.example.navigationarproject;
-
-import android.os.Build;
+package com.example.silavetra;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

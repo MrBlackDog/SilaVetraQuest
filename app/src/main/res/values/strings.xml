@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">220 V</string>
+    <string name="app_name">SilaVetra</string>
     <string name="title_activity_login">Sign in</string>
     <string name="Id">Id</string>
     <string name="Secret_Code">Secret Code</string>

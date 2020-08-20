@@ -1,4 +1,4 @@
-package com.example.navigationarproject;
+package com.example.silavetra;
 
 import okhttp3.Response;
 import okhttp3.WebSocket;
