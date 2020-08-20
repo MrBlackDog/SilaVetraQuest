@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,11 +51,28 @@ public class MainActivity extends AppCompatActivity {
     private ModelRenderable andyRenderable;
     private ViewRenderable exampleLayoutRenderable;
     private ViewRenderable exampleLayoutRenderable2;
+    private ViewRenderable exampleLayoutRenderable3;
+    private ViewRenderable exampleLayoutRenderable4;
 
+    int StageAct;
+    String tribe;
+    //max count of markers =3
+    LocationMarker layoutLocationMarker;
+    LocationMarker layoutLocationMarker2;
+    LocationMarker layoutLocationMarker3;
+    LocationMarker layoutLocationMarker4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle arguments = getIntent().getExtras();
+        if(arguments!=null) {
+            tribe = arguments.getString("Tribe");
+            StageAct = arguments.getInt("StageAct");
+            Log.d("ArTack","Main "  + StageAct);
+        }
+
         arSceneView = findViewById(R.id.ar_scene_view);
 
         TextView tx1 = findViewById(R.id.textView5);
@@ -67,18 +85,21 @@ public class MainActivity extends AppCompatActivity {
                 ViewRenderable.builder()
                         .setView(this, R.layout.example_layout)
                         .build();
-
         CompletableFuture<ViewRenderable> exampleLayout2 =
                 ViewRenderable.builder()
                         .setView(this, R.layout.example_layout)
                         .build();
-
-        CompletableFuture<ModelRenderable> andy = ModelRenderable.builder()
-                .setSource(this, Uri.parse("andy.sfb"))
-                .build();
+        CompletableFuture<ViewRenderable> exampleLayout3 =
+                ViewRenderable.builder()
+                        .setView(this, R.layout.example_layout)
+                        .build();
+        CompletableFuture<ViewRenderable> exampleLayout4 =
+                ViewRenderable.builder()
+                        .setView(this, R.layout.example_layout)
+                        .build();
 
       CompletableFuture.allOf(
-                exampleLayout)
+                exampleLayout,exampleLayout2,exampleLayout3,exampleLayout4)
                 .handle(
                         (notUsed, throwable) -> {
                             // When you build a Renderable, Sceneform loads its resources in the background while
@@ -92,8 +113,37 @@ public class MainActivity extends AppCompatActivity {
 
                             try {
                                 exampleLayoutRenderable = exampleLayout.get();
+                                exampleLayoutRenderable.getView().setBackground(getDrawable(R.drawable.goose));
+                                exampleLayoutRenderable2 = exampleLayout2.get();
+                                exampleLayoutRenderable2.getView().setBackground(getDrawable(R.drawable.duck));
+                                exampleLayoutRenderable3 = exampleLayout3.get();
+                                exampleLayoutRenderable3.getView().setBackground(getDrawable(R.drawable.cats));
+                                switch (tribe)
+                                {
+                                    case "Гусята":
+                                    {
+                                        exampleLayoutRenderable4 = exampleLayout4.get();
+                                        exampleLayoutRenderable4.getView().setBackground(getDrawable(R.drawable.goose));
+                                        Log.d("ArTack","exampleLayoutRenderable4 created");
+                                        break;
+                                    }
+                                    case "Утята":
+                                    {
+                                        exampleLayoutRenderable4 = exampleLayout4.get();
+                                        exampleLayoutRenderable4.getView().setBackground(getDrawable(R.drawable.duck));
+                                        Log.d("ArTack","exampleLayoutRenderable4 created");
+                                        break;
+                                    }
+                                    case "Котята":
+                                    {
+                                        exampleLayoutRenderable4 = exampleLayout4.get();
+                                        exampleLayoutRenderable4.getView().setBackground(getDrawable(R.drawable.cats));
+                                        Log.d("ArTack","exampleLayoutRenderable4 created");
+                                        break;
+                                    }
 
-                               // andyRenderable = andy.get();
+                                }
+                                // andyRenderable = andy.get();
                                 hasFinishedLoading = true;
 
                             } catch (InterruptedException | ExecutionException ex) {
@@ -102,8 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                             return null;
                         });
-
-        CompletableFuture.allOf(
+     /*   CompletableFuture.allOf(
                 exampleLayout2)
                 .handle(
                         (notUsed, throwable) -> {
@@ -117,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             try {
+                               // exampleLayoutRenderable = exampleLayout.get();
+                               // exampleLayoutRenderable.getView().setBackground(getDrawable(R.drawable.test_logo_jpg));
                                 exampleLayoutRenderable2 = exampleLayout2.get();
-
                                 // andyRenderable = andy.get();
                                 hasFinishedLoading = true;
 
@@ -128,7 +178,33 @@ public class MainActivity extends AppCompatActivity {
 
                             return null;
                         });
+        CompletableFuture.
+        CompletableFuture.allOf(
+                exampleLayout3)
+                .handle(
+                        (notUsed, throwable) -> {
+                            // When you build a Renderable, Sceneform loads its resources in the background while
+                            // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
+                            // before calling get().
 
+                            if (throwable != null) {
+                                DemoUtils.displayError(this, "Unable to load renderables", throwable);
+                                return null;
+                            }
+
+                            try {
+                                // exampleLayoutRenderable = exampleLayout.get();
+                                // exampleLayoutRenderable.getView().setBackground(getDrawable(R.drawable.test_logo_jpg));
+                                exampleLayoutRenderable2 = exampleLayout2.get();
+                                // andyRenderable = andy.get();
+                                hasFinishedLoading = true;
+
+                            } catch (InterruptedException | ExecutionException ex) {
+                                DemoUtils.displayError(this, "Unable to load renderables", ex);
+                            }
+
+                            return null;
+                        });*/
         // Set an update listener on the Scene that will hide the loading message once a Plane is
         // detected.
         arSceneView.getScene().addOnUpdateListener(
@@ -144,18 +220,181 @@ public class MainActivity extends AppCompatActivity {
 
                         // Now lets create our location markers.
                         // First, a layout
-                        LocationMarker layoutLocationMarker = new LocationMarker(
-                                37.708107, 55.754296,
-                                getExampleView()
-                        );
+                        switch (StageAct) {
+                            case 1: {
+                                double lat1 = Double.parseDouble(getResources().getString(R.string.Marker1st1).split(", ")[0]);
+                                double lon1 = Double.parseDouble(getResources().getString(R.string.Marker1st1).split(", ")[1]);
+                                layoutLocationMarker = new LocationMarker(
+                                        lat1, lon1,
+                                        getExampleView()
+                                );
+                                double lat2 = Double.parseDouble(getResources().getString(R.string.Marker2st1).split(", ")[0]);
+                                double lon2 = Double.parseDouble(getResources().getString(R.string.Marker2st1).split(", ")[1]);
+                                layoutLocationMarker2 = new LocationMarker(
+                                        lat2, lon2,
+                                        getExampleView2()
+                                );
+                                double lat3 = Double.parseDouble(getResources().getString(R.string.Marker3st1).split(", ")[0]);
+                                double lon3 = Double.parseDouble(getResources().getString(R.string.Marker3st1).split(", ")[1]);
 
-                        LocationMarker layoutLocationMarker2 = new LocationMarker(
-                                37.867772, 55.744583,
-                                getExampleView2()
-                        );
-                        locationScene.mLocationMarkers.add(layoutLocationMarker);
-                        locationScene.mLocationMarkers.add(layoutLocationMarker2);
+                                layoutLocationMarker3 = new LocationMarker(
+                                        lat3, lon3,
+                                        getExampleView3()
+                                );
+                                locationScene.mLocationMarkers.add(layoutLocationMarker);
+                                locationScene.mLocationMarkers.add(layoutLocationMarker2);
+                                locationScene.mLocationMarkers.add(layoutLocationMarker3);
 
+                                layoutLocationMarker.setRenderEvent(anchornode -> {
+
+                                    View eView = exampleLayoutRenderable.getView();
+
+                                    TextView distanceTextView = eView.findViewById(R.id.textView2);
+                                    TextView coordTextView = eView.findViewById(R.id.textView9);
+
+                                    distanceTextView.setText(anchornode.getDistance() + "M");
+                                    coordTextView.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
+                                    locationScene.mLocationMarkers.get(0).setScaleModifier(0.2f);
+                                    //    locationScene.mLocationMarkers.get(1).setScaleModifier(0.4f);
+                                    //locationScene.mLocationMarkers.get(0).setScalingMode(LocationMarker.ScalingMode.FIXED_SIZE_ON_SCREEN);
+                                    //включение и отключение метки,если расстояние меньше заданного. работает.
+                                    if(locationScene.mLocationMarkers.get(0).anchorNode.getDistance() > 25)
+                                    {
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(false);
+                                        //      tx3.setText("out of range");
+                                    }
+                                    else
+                                    {
+                                        //      tx3.setText(anchornode.getDistance() + "M");
+                                        // tx3.setText("out of vision");
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(true);
+                                    }
+
+                                });
+
+                                layoutLocationMarker2.setRenderEvent(anchornode -> {
+
+                                    View eView2 = exampleLayoutRenderable2.getView();
+
+                                    TextView distanceTextView = eView2.findViewById(R.id.textView2);
+                                    TextView coordTextView = eView2.findViewById(R.id.textView9);
+                                    locationScene.mLocationMarkers.get(1).setScaleModifier(0.2f);
+                                    distanceTextView.setText(anchornode.getDistance() + "M");
+                                    coordTextView.setText(layoutLocationMarker2.latitude + " " + layoutLocationMarker2.longitude);
+                                    //включение и отключение метки,если расстояние меньше заданного. работает.
+                                    if(locationScene.mLocationMarkers.get(1).anchorNode.getDistance() > 25)
+                                    {
+                                        locationScene.mLocationMarkers.get(1).node.setEnabled(false);
+                                        //      tx3.setText("out of range");
+                                    }
+                                    else
+                                    {
+                                        //      tx3.setText(anchornode.getDistance() + "M");
+                                        // tx3.setText("out of vision");
+                                        locationScene.mLocationMarkers.get(1).node.setEnabled(true);
+                                    }
+
+                                });
+                                layoutLocationMarker3.setRenderEvent(anchornode -> {
+
+                                    View eView2 = exampleLayoutRenderable3.getView();
+
+                                    TextView distanceTextView = eView2.findViewById(R.id.textView2);
+                                    TextView coordTextView = eView2.findViewById(R.id.textView9);
+                                    locationScene.mLocationMarkers.get(2).setScaleModifier(0.2f);
+                                    distanceTextView.setText(anchornode.getDistance() + "M");
+                                    coordTextView.setText(layoutLocationMarker3.latitude + " " + layoutLocationMarker3.longitude);
+                                    //включение и отключение метки,если расстояние меньше заданного. работает.
+                                    if(locationScene.mLocationMarkers.get(2).anchorNode.getDistance() > 25)
+                                    {
+                                        locationScene.mLocationMarkers.get(2).node.setEnabled(false);
+                                        //      tx3.setText("out of range");
+                                    }
+                                    else
+                                    {
+                                        //      tx3.setText(anchornode.getDistance() + "M");
+                                        // tx3.setText("out of vision");
+                                        locationScene.mLocationMarkers.get(2).node.setEnabled(true);
+                                    }
+
+                                });
+                                break;
+                            }
+                            case 2: {
+                                double lat4 = Double.parseDouble(getResources().getString(R.string.Marker1st2).split(", ")[0]);
+                                double lon4 = Double.parseDouble(getResources().getString(R.string.Marker1st2).split(", ")[1]);
+
+                                layoutLocationMarker = new LocationMarker(
+                                        lat4, lon4,
+                                        getExampleView4()
+                                );
+                                locationScene.mLocationMarkers.add(layoutLocationMarker);
+                                layoutLocationMarker.setRenderEvent(anchornode -> {
+
+                                    View eView = exampleLayoutRenderable4.getView();
+
+                                    TextView distanceTextView = eView.findViewById(R.id.textView2);
+                                    TextView coordTextView = eView.findViewById(R.id.textView9);
+
+                                    distanceTextView.setText(anchornode.getDistance() + "M");
+                                    coordTextView.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
+                                    locationScene.mLocationMarkers.get(0).setScaleModifier(0.2f);
+                                    //    locationScene.mLocationMarkers.get(1).setScaleModifier(0.4f);
+                                    //locationScene.mLocationMarkers.get(0).setScalingMode(LocationMarker.ScalingMode.FIXED_SIZE_ON_SCREEN);
+                                    //включение и отключение метки,если расстояние меньше заданного. работает.
+                                    if(locationScene.mLocationMarkers.get(0).anchorNode.getDistance() > 25)
+                                    {
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(false);
+                                        //      tx3.setText("out of range");
+                                    }
+                                    else
+                                    {
+                                        //      tx3.setText(anchornode.getDistance() + "M");
+                                        // tx3.setText("out of vision");
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(true);
+                                    }
+
+                                });
+                                break;
+                            }
+                            case 3: {
+                                double lat5 = Double.parseDouble(getResources().getString(R.string.Marker1st3).split(", ")[0]);
+                                double lon5 = Double.parseDouble(getResources().getString(R.string.Marker1st3).split(", ")[1]);
+
+                                layoutLocationMarker = new LocationMarker(
+                                        lat5, lon5,
+                                        getExampleView4()
+                                );
+                                locationScene.mLocationMarkers.add(layoutLocationMarker);
+                                layoutLocationMarker.setRenderEvent(anchornode -> {
+
+                                    View eView = exampleLayoutRenderable4.getView();
+
+                                    TextView distanceTextView = eView.findViewById(R.id.textView2);
+                                    TextView coordTextView = eView.findViewById(R.id.textView9);
+
+                                    distanceTextView.setText(anchornode.getDistance() + "M");
+                                    coordTextView.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
+                                    locationScene.mLocationMarkers.get(0).setScaleModifier(0.2f);
+                                    //locationScene.mLocationMarkers.get(1).setScaleModifier(0.4f);
+                                    //locationScene.mLocationMarkers.get(0).setScalingMode(LocationMarker.ScalingMode.FIXED_SIZE_ON_SCREEN);
+                                    //включение и отключение метки,если расстояние меньше заданного. работает.
+                                    if(locationScene.mLocationMarkers.get(0).anchorNode.getDistance() > 25)
+                                    {
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(false);
+                                        //      tx3.setText("out of range");
+                                    }
+                                    else
+                                    {
+                                        //      tx3.setText(anchornode.getDistance() + "M");
+                                        // tx3.setText("out of vision");
+                                        locationScene.mLocationMarkers.get(0).node.setEnabled(true);
+                                    }
+
+                                });
+                                break;
+                            }
+                        }
                      /*   for (LocationMarker lm :locationScene.mLocationMarkers)
                         {
                             lm.setRenderEvent(anchornode -> {
@@ -183,59 +422,11 @@ public class MainActivity extends AppCompatActivity {
                             });
                         }*/
 
-                        layoutLocationMarker.setRenderEvent(anchornode -> {
 
-                            View eView = exampleLayoutRenderable.getView();
-
-                            TextView distanceTextView = eView.findViewById(R.id.textView2);
-                            TextView coordTextView = eView.findViewById(R.id.textView9);
-
-                            distanceTextView.setText(anchornode.getDistance() + "M");
-                            coordTextView.setText(layoutLocationMarker.latitude + " " + layoutLocationMarker.longitude);
-                            locationScene.mLocationMarkers.get(0).setScaleModifier(0.4f);
-                        //    locationScene.mLocationMarkers.get(1).setScaleModifier(0.4f);
-                            locationScene.mLocationMarkers.get(0).setScalingMode(LocationMarker.ScalingMode.GRADUAL_TO_MAX_RENDER_DISTANCE);
-                            //включение и отключение метки,если расстояние меньше заданного. работает.
-                            if(locationScene.mLocationMarkers.get(0).anchorNode.getDistance() > 350)
-                            {
-                                locationScene.mLocationMarkers.get(0).node.setEnabled(false);
-                          //      tx2.setText("out of range");
-                            }
-                            else
-                            {
-                          //      tx2.setText(anchornode.getDistance() + "M");
-                                // tx3.setText("out of vision");
-                                locationScene.mLocationMarkers.get(0).node.setEnabled(true);
-                            }
-
-                        });
                         // Adding the marker
 
                         // An example "onRender" event, called every frame
                         // Updates the layout with the markers distance
-                        layoutLocationMarker2.setRenderEvent(anchornode -> {
-
-                            View eView2 = exampleLayoutRenderable2.getView();
-
-                            TextView distanceTextView = eView2.findViewById(R.id.textView2);
-                            TextView coordTextView = eView2.findViewById(R.id.textView9);
-
-                            distanceTextView.setText(anchornode.getDistance() + "M");
-                            coordTextView.setText(layoutLocationMarker2.latitude + " " + layoutLocationMarker2.longitude);
-                            //включение и отключение метки,если расстояние меньше заданного. работает.
-                            if(locationScene.mLocationMarkers.get(1).anchorNode.getDistance() > 350)
-                            {
-                                locationScene.mLocationMarkers.get(1).node.setEnabled(false);
-                          //      tx3.setText("out of range");
-                            }
-                            else
-                            {
-                          //      tx3.setText(anchornode.getDistance() + "M");
-                                // tx3.setText("out of vision");
-                                locationScene.mLocationMarkers.get(1).node.setEnabled(true);
-                            }
-
-                        });
 
                         // Adding the marker
                         // An example "onRender" event, called every frame
@@ -378,8 +569,25 @@ public class MainActivity extends AppCompatActivity {
 
                         });
         bt.setOnClickListener(view -> {
-            locationScene.mLocationMarkers.get(1).latitude = 55.743514;
-            locationScene.mLocationMarkers.get(1).longitude =37.869371;
+            switch (StageAct) {
+                case 1:
+                {
+                    Toast.makeText(getApplicationContext(), "Пока нечего подсказывать",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case 2: {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Hint1),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case 3:
+                {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Hint2),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
         });
     }
 
@@ -505,7 +713,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
        // Intent intent = new Intent(MainActivity.this, StartActivity.class);
-        startActivity(intent2);
+       // startActivity(intent2);
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -524,16 +732,20 @@ public class MainActivity extends AppCompatActivity {
         Context c = this;
         // Add  listeners etc here
         View eView = exampleLayoutRenderable.getView();
-        eView.setOnTouchListener((v, event) -> {
-            Toast.makeText(
-                    c, "Location marker touched.", Toast.LENGTH_LONG)
-                    .show();
+        if(tribe.equals(getResources().getString(R.string.cyberpunk))) {
+            eView.setOnTouchListener((v, event) -> {
+                Toast.makeText(
+                        c, "Location marker touched.", Toast.LENGTH_LONG)
+                        .show();
 
-            Intent intent = new Intent(MainActivity.this, QuestActivity.class);
-            startActivity(intent);
-            //добавить отправку сообщения.
-            return false;
-        });
+                Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                intent.putExtra("StageAct", StageAct);
+                intent.putExtra("Tribe", tribe);
+                startActivity(intent);
+                //добавить отправку сообщения.
+                return false;
+            });
+        }
         return base;
     }
 
@@ -543,17 +755,64 @@ public class MainActivity extends AppCompatActivity {
         Context c = this;
         // Add  listeners etc here
         View eView = exampleLayoutRenderable2.getView();
-        eView.setOnTouchListener((v, event) -> {
-            Toast.makeText(
-                    c, "Location marker touched.", Toast.LENGTH_LONG)
-                    .show();
+        if(tribe.equals(getResources().getString(R.string.euphoria))) {
+            eView.setOnTouchListener((v, event) -> {
+                Toast.makeText(
+                        c, "Location marker touched.", Toast.LENGTH_LONG)
+                        .show();
 
-            Intent intent = new Intent(MainActivity.this, QuestActivity.class);
-            startActivity(intent);
-            //добавить отправку сообщения.
-            return false;
-        });
+                Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                intent.putExtra("StageAct", StageAct);
+                intent.putExtra("Tribe", tribe);
+                startActivity(intent);
+                //добавить отправку сообщения.
+                return false;
+            });
+        }
         return base;
     }
+    private Node getExampleView3() {
+        Node base = new Node();
+        base.setRenderable(exampleLayoutRenderable3);
+        Context c = this;
+        // Add  listeners etc here
+        View eView = exampleLayoutRenderable3.getView();
+        if(tribe.equals(getResources().getString(R.string.masson))) {
+            eView.setOnTouchListener((v, event) -> {
+                Toast.makeText(
+                        c, "Location marker touched.", Toast.LENGTH_LONG)
+                        .show();
 
+                Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                intent.putExtra("StageAct", StageAct);
+                intent.putExtra("Tribe", tribe);
+                startActivity(intent);
+                //добавить отправку сообщения.
+                return false;
+            });
+        }
+        return base;
+    }
+    private Node getExampleView4() {
+        Node base = new Node();
+        base.setRenderable(exampleLayoutRenderable4);
+        Context c = this;
+        // Add  listeners etc here
+        View eView = exampleLayoutRenderable4.getView();
+
+            eView.setOnTouchListener((v, event) -> {
+                Toast.makeText(
+                        c, "Location marker touched.", Toast.LENGTH_LONG)
+                        .show();
+
+                Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                intent.putExtra("StageAct", StageAct);
+                intent.putExtra("Tribe", tribe);
+                startActivity(intent);
+                //добавить отправку сообщения.
+                return false;
+            });
+
+        return base;
+    }
 }

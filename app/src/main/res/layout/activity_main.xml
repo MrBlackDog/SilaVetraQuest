@@ -49,7 +49,8 @@
         android:id="@+id/button2"
         android:layout_width="114dp"
         android:layout_height="58dp"
-        android:text="Button"
+        android:alpha="0.85"
+        android:text="Hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

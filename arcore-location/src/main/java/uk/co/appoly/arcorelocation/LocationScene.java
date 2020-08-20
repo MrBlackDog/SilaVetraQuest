@@ -53,6 +53,7 @@ public class LocationScene {
             mHandler.postDelayed(anchorRefreshTask, anchorRefreshInterval);
         }
     };
+
     private boolean debugEnabled = false;
     private Session mSession;
     private DeviceLocationChanged locationChangedEvent;
