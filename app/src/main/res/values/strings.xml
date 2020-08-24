@@ -4,9 +4,5 @@
     <string name="Id">Id</string>
     <string name="Secret_Code">Secret Code</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="Choose">Выберите команду</string>
-    <string name="cyberpunk">Гусята</string>
-    <string name="euphoria">Утята</string>
-    <string name="masson">Котята</string>
 
 </resources>

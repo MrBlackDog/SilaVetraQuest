@@ -8,59 +8,50 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        android:focusable="true" />
 
-        app:srcCompat="@drawable/ic_launcher_foreground" />
-
-    <TextView
-        android:id="@+id/textChoose"
+    <EditText
+        android:id="@+id/editIdText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text="@string/Choose"
-        android:textSize="25sp"
+        android:layout_marginTop="152dp"
+        android:ems="10"
+        android:hint="@string/Id"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/triberadioGroup"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/editCodeText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="332dp"
+        android:ems="10"
+        android:hint="@string/Secret_Code"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textChoose">
+        app:layout_constraintTop_toBottomOf="@+id/editIdText"
+        app:layout_constraintVertical_bias="0.114" />
 
-        <RadioButton
-            android:id="@+id/radioButtonСyberpunk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cyberpunk"
-            android:textSize="20sp" />
-
-        <RadioButton
-            android:id="@+id/radioButtonEuphoria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/euphoria"
-            android:textSize="20sp" />
-
-        <RadioButton
-            android:id="@+id/radioButtonMasson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/masson"
-            android:textSize="20sp" />
-    </RadioGroup>
-
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/title_activity_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.693"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCodeText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
